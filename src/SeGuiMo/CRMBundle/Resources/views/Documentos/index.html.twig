@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}Documentos{% endblock %}
+{% block page_subtitle %}Listado{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('documentos_new') }}" title="Alta" class="btn btn-success"><i class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Size</th>
+                <th>Observaciones</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+            	<td>{{ entity.nombre }}</td>
+                <td class="text-right">{{ macro.bytesToSize(entity.size) }}</td>
+                <td>{{ entity.observaciones }}</td>
+                <td class="text-right">
+                							<a href="{{ asset('bundles/seguimocrm/uploads/') }}{{ entity.ruta }}" title="Descargar" class="btn btn-sm btn-default" target="_blank"><i class="fa fa-download"></i></a>
+					                    	<a href="{{ path('documentos_show', { 'id': entity.id }) }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    
+						                    <a href="{{ path('documentos_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+        $('#tabla').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "pageLength": 25
+        });
+      });
+    </script>
+{% endblock %}

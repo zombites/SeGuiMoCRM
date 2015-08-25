@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}Nodos{% endblock %}
+{% block page_subtitle %}Listado{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('nodos_new') }}" title="Alta" class="btn btn-success"><i class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Ip</th>
+                <th>Urlguifi</th>
+                <th>Fechaalta</th>
+                <th>Fechabaja</th>
+                <th>Material de red</th>
+                <th>Observaciones</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('nodos_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.direccion }}</td>
+                <td>{{ entity.ip }}</td>
+                <td>{{ entity.urlGuifi }}</td>
+                <td>{% if entity.fechaAlta %}{{ entity.fechaAlta|date('d/m/Y') }}{% endif %}</td>
+                <td>{% if entity.fechaBaja %}{{ entity.fechaBaja|date('d/m/Y') }}{% endif %}</td>
+                <td>{% if entity.materialesRed %}<a href="{{ path('materialesred_show', { 'id': entity.materialesRed.id})}}" title="Ver material de red">{{ entity.materialesRed.modelo }}</a>{% endif %}</td>
+                <td>{{ entity.observaciones }}</td>
+                <td class="text-right">
+					                    	<a href="{{ path('nodos_show', { 'id': entity.id }) }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    
+						                    <a href="{{ path('nodos_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+        $('#tabla').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
+{% endblock %}

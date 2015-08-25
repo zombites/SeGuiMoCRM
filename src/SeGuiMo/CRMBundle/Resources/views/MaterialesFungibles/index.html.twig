@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}MaterialesFungibles{% endblock %}
+{% block page_subtitle %}Listado{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('materialesfungibles_new') }}" title="Alta" class="btn btn-success"><i class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Pvd</th>
+                <th>Pvp</th>
+                <th>Observaciones</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('materialesfungibles_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.marca }}</td>
+                <td>{{ entity.modelo }}</td>
+                <td>{{ entity.pvd }}</td>
+                <td>{{ entity.pvp }}</td>
+                <td>{{ entity.observaciones }}</td>
+                <td class="text-right">
+					                    	<a href="{{ path('materialesfungibles_show', { 'id': entity.id }) }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    
+						                    <a href="{{ path('materialesfungibles_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+        $('#tabla').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
+{% endblock %}

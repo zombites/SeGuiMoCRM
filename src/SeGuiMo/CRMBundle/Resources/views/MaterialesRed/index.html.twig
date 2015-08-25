@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}MaterialesRed{% endblock %}
+{% block page_subtitle %}Listado{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('materialesred_new') }}" title="Alta" class="btn btn-success"><i class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Numeroserie</th>
+                <th>Mac</th>
+                <th>Asiento contable</th>
+                <th>Observaciones</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('materialesred_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.marca }}</td>
+                <td>{{ entity.modelo }}</td>
+                <td>{{ entity.numeroSerie }}</td>
+                <td>{{ entity.mac }}</td>
+                <td><a href="{{ path('librodiario_show', { 'id': entity.libroDiario.id }) }}" title="Ver asiento">{{ entity.libroDiario.concepto }}</a></td>
+                <td>{{ entity.observaciones }}</td>
+                <td class="text-right">
+					                    	<a href="{{ path('materialesred_show', { 'id': entity.id }) }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    
+						                    <a href="{{ path('materialesred_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+        $('#tabla').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
+{% endblock %}

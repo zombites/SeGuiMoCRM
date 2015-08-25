@@ -1,0 +1,56 @@
+{% block extends %}
+{{ "{% extends '::base.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{% block page_title %}" }}{{ entity }}{{ "{% endblock %}" }}
+{{ "{% block page_subtitle %}" }}Detalle{{ "{% endblock %}" }}
+
+{{ "{% block botones_accion %}" }}
+    <a href="{{ "{{ path('" ~ route_name_prefix ~ "') }}" }}" title="Volver" class="btn btn-default"><i class="fa fa-reply"></i></a>
+    <a href="{{ "{{ path('" ~ route_name_prefix ~ "_edit', { 'id': entity."~ identifier ~" }) }}" }}" title="Editar" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+    <a rol="button" class="btn btn-danger" title="Eliminar" data-toggle="modal" data-target="#modal_delete"><i class="fa fa-close"></i></a>
+{{ "{% endblock %}" }}
+
+
+{{ "{% block page_content %}" }}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <tbody>
+        {%- for field, metadata in fields %}
+
+            <tr>
+                <th>{{ field|capitalize }}</th>
+
+            {%- if metadata.type in ['date', 'datetime'] %}
+
+                <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}</td>
+
+            {%- else %}
+
+                <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+            {%- endif %}
+
+            </tr>
+
+        {%- endfor %}
+
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+    {% set hide_edit, hide_delete = false, false %}
+	{% include 'crud/views/others/record_actions.html.twig.twig' %}
+
+{{ "{% endblock %}" }}
+
+{{ "{% block javascripts_inline %}" }}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+      });
+    </script>
+{{ "{% endblock %}" }}

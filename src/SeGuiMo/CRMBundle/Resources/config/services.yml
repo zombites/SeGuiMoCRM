@@ -1,0 +1,18 @@
+services:
+#    se_gui_mo_crm.example:
+#        class: SeGuiMo\CRMBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+parameters:
+    crm_bundle.menu_listener.class: SeGuiMo\CRMBundle\EventListener\MenuItemListEvent
+    crm_bundle.show_user_listener.class: SeGuiMo\CRMBundle\EventListener\UserShowListEvent 
+
+services:
+    crm_bundle.menu_listener:
+        class: %crm_bundle.menu_listener.class%
+        tags:
+            - { name: kernel.event_listener, event:theme.sidebar_setup_menu, method: onSetupMenu }
+    crm_bundle.show_user_listener:
+        class: %crm_bundle.show_user_listener.class%
+        tags:
+            - { name: kernel.event_listener, event: theme.navbar_user, method: onShowUser }

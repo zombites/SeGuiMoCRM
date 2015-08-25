@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}Personas{% endblock %}
+{% block page_subtitle %}Listado{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('personas_new') }}" title="Alta" class="btn btn-success"><i class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Observaciones</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('personas_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.apellidos }}</td>
+                <td>{{ entity.mail1 }}</td>
+                <td>{{ entity.telefono1 }}</td>
+                <td>{{ entity.observaciones }}</td>
+                <td class="text-right">
+					                    	<a href="{{ path('personas_show', { 'id': entity.id }) }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    
+						                    <a href="{{ path('personas_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+        $('#tabla').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
+{% endblock %}

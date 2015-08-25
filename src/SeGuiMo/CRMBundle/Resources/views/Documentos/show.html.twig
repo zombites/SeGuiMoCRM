@@ -1,0 +1,103 @@
+{% extends '::base.html.twig' %}
+
+{% block page_title %}Documentos{% endblock %}
+{% block page_subtitle %}Detalle{% endblock %}
+
+{% block botones_accion %}
+    <a href="{{ path('documentos') }}" title="Volver" class="btn btn-default"><i class="fa fa-reply"></i></a>
+    <a href="{{ path('documentos_edit', { 'id': entity.id }) }}" title="Editar" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+    <a rol="button" class="btn btn-danger" title="Eliminar" data-toggle="modal" data-target="#modal_delete"><i class="fa fa-close"></i></a>
+{% endblock %}
+
+
+{% block page_content %}
+<div class="box">
+	<div class="box-body">
+	    <table id="tabla" class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ entity.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Mimetype</th>
+                <td>{{ entity.mimetype }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ macro.bytesToSize(entity.size) }}</td>
+            </tr>
+            <tr>
+                <th>Ruta</th>
+                <td>{{ entity.ruta }}<a href="{{ asset('bundles/seguimocrm/uploads/') }}{{ entity.ruta | url_encode }}" title="Descargar" class="btn btn-sm btn-default pull-right"><i class="fa fa-download"></i></a></td>
+            </tr>
+            <tr>
+                <th>Observaciones</th>
+                <td>{{ entity.observaciones }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+	</div>
+</div>
+
+<div class="box box-danger collapsed-box">
+  <div class="box-header with-border">
+    <h3 class="box-title">Ver documento</h3>
+    <div class="box-tools pull-right">
+      <button class="btn btn-sm btn-info" data-widget="collapse"><i class="fa fa-plus"></i></button>
+    </div><!-- /.box-tools -->
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    	<div class="embed-responsive embed-responsive-4by3">
+  			<iframe class="embed-responsive-item" src="{{ asset('bundles/seguimocrm/uploads/') }}{{ entity.ruta }}"></iframe>
+		</div>
+  </div><!-- /.box-body -->
+</div><!-- /.box -->
+    			
+<div class="modal fade modal-danger" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Borrando registro</h4>
+      </div>
+      <div class="modal-body">
+        <p>Si lo haces, no hay vuelta atrás... :)</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
+        {{ form_start(delete_form) }}
+    	{{ form_errors(delete_form) }}
+    
+	    {% for field in delete_form %}
+	    	{% if field.vars.name == 'submit' %}
+				{{ form_widget(delete_form.submit, {'attr': {'class': 'btn btn-outline'}}) }}
+				
+			{% else %}
+		    	{{ form_row(field) }}
+		    	
+		    {% endif %}
+
+		{% endfor %}
+			
+		{{ form_end(delete_form) }}
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% endblock %}
+
+{% block javascripts_inline %}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+      });
+    </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+                {%- for action in record_actions %}
+
+					{% if action == 'show' %}
+                    	<a href="{{ "{{ path('" ~ route_name_prefix ~ "_" ~ action ~ "', { 'id': entity."~ identifier ~" }) }}" }}" title="Detalle" class="btn btn-sm btn-info"><i class="fa fa-search"></i></a>
+                    {% elseif action == 'edit' %}
+	                    <a href="{{ "{{ path('" ~ route_name_prefix ~ "_" ~ action ~ "', { 'id': entity."~ identifier ~" }) }}" }}" title="Editar" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+	                {% endif%}
+
+                {%- endfor %}

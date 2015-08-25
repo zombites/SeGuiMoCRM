@@ -1,0 +1,17 @@
+body {
+  color: #fff !important;
+  background-image: url('https://raw.githubusercontent.com/zombites/quo.red/master/img/fondo_2.jpg') !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  background-color: #ff0000 !important;
+	background-position: top center !important;
+	font-family: "Source Sans Pro",Helvetica,Arial,sans-serif;
+}
+
+.login-logo {
+	border-bottom: 1px solid white !important;
+}
+
+.mt20 {
+	margin-top: 20px;
+}

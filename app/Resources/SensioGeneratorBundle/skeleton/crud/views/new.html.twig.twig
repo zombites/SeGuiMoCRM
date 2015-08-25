@@ -1,0 +1,50 @@
+{% block extends %}
+{{ "{% extends '::base.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{% block page_title %}" }}{{ entity }}{{ "{% endblock %}" }}
+{{ "{% block page_subtitle %}" }}Edición{{ "{% endblock %}" }}
+
+{{ "{% block botones_accion %}" }}
+    <a href="{{ "{{ path('" ~ route_name_prefix ~ "') }}" }}" title="Volver" class="btn btn-default"><i class="fa fa-reply"></i></a>
+{{ "{% endblock %}" }}
+
+{{ "{% block page_content %}" }}
+<div class="box">
+	<div class="box-body">
+    
+    {{ '{{ form_start(form) }}' }}
+    	<div class="box-body">
+    	{{ '{{ form_errors(form) }}' }}
+    
+	    {{ "{% for field in form %}" }}
+	    	{{ "{% if field.vars.name == 'submit' %}" }}
+	    	</div>
+			<div class="box-footer">
+				{{ "{{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}" }}
+			{{ "{% else %}" }}
+	    	<div class="form-group">
+		    	{{ "{{ form_row(field) }}" }}
+		    </div>
+		    {{ "{% endif %}" }}
+
+		{{ "{% endfor %}" }}
+		</div>
+			
+	{{ '{{ form_end(form) }}' }}
+    
+	</div>
+
+    {% set hide_edit, hide_delete = true, true %}
+    {% include 'crud/views/others/record_actions.html.twig.twig' %}
+    
+</div>
+{{ "{% endblock %}" }}
+
+{{ "{% block javascripts_inline %}" }}
+    <script type="text/javascript">
+      $(function () {
+      	$('a').tooltip();      
+      });
+    </script>
+{{ "{% endblock %}" }}
